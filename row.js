@@ -7,6 +7,9 @@ c.controller("Row", ["$scope", "safeApply", "ioquery",
 	// Whether there is an error on this row
 	$scope.error = false;
 
+	// Whether this row has ever been reloaded
+	$scope.reloaded = false;
+
 	// This is what gets called when you click the reload button on each row
 	$scope.reload = function() {
 		// Update the state
@@ -22,7 +25,11 @@ c.controller("Row", ["$scope", "safeApply", "ioquery",
 		}).done(function(data) {
 			$scope.reloading = false;
 			$scope.error = false;
-			$scope.row.results = [data[0].data];
+			$scope.row.results = [];
+			data.map(function(row) {
+				$scope.row.results.push(row.data);
+			});
+			$scope.reloaded = true;
 			safeApply($scope);
 		}).fail(function() {
 			$scope.reloading = false;

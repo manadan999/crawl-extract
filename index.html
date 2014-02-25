@@ -46,11 +46,16 @@
 				<tbody>
 					<tr ng-repeat="row in data" ng-controller="Row">
 						<td><a href="{{row.pageUrl}}" target="_blank">{{row.pageUrl}}</a></td>
-						<td ng-repeat="col in schemas[sourceGuid].outputProperties">{{row.results[0][col.name]}}</td>
+						<td ng-repeat="col in schemas[sourceGuid].outputProperties">
+							<div ng-repeat="resrow in row.results">
+								{{resrow[col.name]}}
+							</div>
+						</td>
 						<td>
 							<a href="" ng-click="reload()" ng-show="!reloading">Reload</a>
 							<span ng-show="reloading">Reloading</span>
 							<span ng-show="error">(Error!)</span>
+							<span ng-show="reloaded">(Reloaded)</span>
 						</td>
 					</tr>
 				</tbody>
